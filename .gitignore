@@ -9,3 +9,8 @@ wheels/
 # Virtual environments
 .venv
 .DS_Store
+.env
+
+
+# Node_modules
+frontend/node_modules/
