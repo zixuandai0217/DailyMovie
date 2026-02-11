@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from app.config import get_settings
 from app.api.routes_health import router as health_router
 from app.api.routes_movies import router as movies_router
+from app.api.routes_ai import router as ai_router
 
 settings = get_settings()
 
@@ -31,6 +32,7 @@ app.add_middleware(
 
 app.include_router(health_router, prefix=settings.API_V1_PREFIX)
 app.include_router(movies_router, prefix=settings.API_V1_PREFIX)
+app.include_router(ai_router, prefix=settings.API_V1_PREFIX)
 
 
 if __name__ == "__main__":

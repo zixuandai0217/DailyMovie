@@ -4,14 +4,35 @@ import type { RouteRecordRaw } from 'vue-router'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'Home',
-    component: () => import('@/views/HomeView.vue'),
-  },
-  {
-    path: '/movie/:id',
-    name: 'MovieDetail',
-    component: () => import('@/views/MovieDetailView.vue'),
-    props: true,
+    component: () => import('@/layouts/MainLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Home',
+        component: () => import('@/views/HomeView.vue'),
+      },
+      {
+        path: 'ai',
+        name: 'AIRecommend',
+        component: () => import('@/views/AIRecommendView.vue'),
+      },
+      {
+        path: 'list/:type',
+        name: 'MovieList',
+        component: () => import('@/views/MovieListView.vue'),
+      },
+      {
+        path: 'genre/:id',
+        name: 'GenreList',
+        component: () => import('@/views/MovieListView.vue'),
+      },
+      {
+        path: 'movie/:id',
+        name: 'MovieDetail',
+        component: () => import('@/views/MovieDetailView.vue'),
+        props: true,
+      },
+    ],
   },
 ]
 

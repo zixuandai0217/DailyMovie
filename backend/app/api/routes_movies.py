@@ -5,6 +5,50 @@ from app.services.tmdb_service import tmdb_service
 router = APIRouter(prefix="/movies", tags=["movies"])
 
 
+@router.get("/genres")
+async def get_genres():
+    """获取电影分类列表"""
+    genre_map = await tmdb_service.get_genres()
+    # 转换为列表格式 [{id: 1, name: "Action"}]
+    return [{"id": v, "name": k} for k, v in genre_map.items()]
+
+
+@router.get("/list", response_model=MovieListResponse)
+async def get_movies_by_list(category: str = "popular", page: int = 1, genre_id: int = None):
+    """获取电影列表 (popular, top_rated) 或根据分类筛选"""
+    if genre_id:
+        data = await tmdb_service.discover_movies(page=page, with_genres=genre_id)
+    else:
+        # 验证 category
+        if category not in ["popular", "top_rated", "upcoming", "now_playing"]:
+            category = "popular"
+        data = await tmdb_service.get_movie_list(category, page)
+        
+    movies = []
+    for m in data.get("results", []):
+        movies.append({
+            "id": m["id"],
+            "tmdb_id": m["id"],
+            "title": m["title"],
+            "title_en": m.get("original_title"),
+            "original_title": m.get("original_title"),
+            "overview": m.get("overview"),
+            "overview_en": None,
+            "poster_path": m.get("poster_path"),
+            "backdrop_path": m.get("backdrop_path"),
+            "release_date": m.get("release_date"),
+            "vote_average": m.get("vote_average", 0),
+            "genres": [],
+            "homepage": None,
+            "director": None,
+            "cast": [],
+            "runtime": None,
+            "tagline": None,
+            "is_favorite": False,
+        })
+    return {"movies": movies, "total": data.get("total_results", 0), "page": page, "page_size": 20}
+
+
 @router.get("/random", response_model=RandomMovieResponse)
 async def get_random_movie():
     """获取随机推荐电影"""

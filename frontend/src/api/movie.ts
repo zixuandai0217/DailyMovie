@@ -43,4 +43,16 @@ export const movieApi = {
   searchMovies(query: string, page: number = 1): Promise<MovieListResponse> {
     return apiClient.get('/movies/search', { params: { query, page } })
   },
+  getGenres(): Promise<{id: number, name: string}[]> {
+    return apiClient.get('/movies/genres')
+  },
+  getMovieList(category: string, page: number = 1): Promise<MovieListResponse> {
+    return apiClient.get('/movies/list', { params: { category, page } })
+  },
+  getMoviesByGenre(genreId: number, page: number = 1): Promise<MovieListResponse> {
+    return apiClient.get('/movies/list', { params: { genre_id: genreId, page } })
+  },
+  aiRecommend(prompt: string): Promise<MovieListResponse> {
+    return apiClient.post('/ai/recommend', { prompt })
+  }
 }

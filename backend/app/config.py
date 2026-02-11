@@ -14,6 +14,10 @@ class Settings(BaseSettings):
     TMDB_BASE_URL: str = "https://api.themoviedb.org/3"
     TMDB_IMAGE_BASE_URL: str = "https://image.tmdb.org/t/p"
 
+    # GLM (AI) 配置
+    GLM_API_KEY: str = ""
+    GLM_BASE_URL: str = "https://open.bigmodel.cn/api/anthropic"
+
     # 数据库配置
     DATABASE_URL: str = "sqlite+aiosqlite:///./data/daily_movie.db"
 

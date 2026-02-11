@@ -182,12 +182,13 @@ watch(() => route.params.id, loadMovie);
 }
 
 .back-btn {
-  position: fixed;
+  position: absolute;
   top: 20px;
   left: 20px;
   z-index: 100;
   background: rgba(0, 0, 0, 0.5);
   color: #fff;
+  border: none;
 }
 
 .content {

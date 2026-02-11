@@ -95,5 +95,21 @@ class TMDBService:
         """搜索电影"""
         return await self._request("search/movie", {"query": query, "page": page, "language": "zh-CN"})
 
+    async def get_genres(self) -> Dict[str, int]:
+        """获取电影类型映射 {name: id}"""
+        data = await self._request("genre/movie/list", {"language": "zh-CN"})
+        return {g["name"]: g["id"] for g in data.get("genres", [])}
+
+    async def discover_movies(self, page: int = 1, **kwargs) -> Dict[str, Any]:
+        """发现电影"""
+        params = {"page": page, "language": "zh-CN", "sort_by": "popularity.desc"}
+        # 移除空值
+        params.update({k: v for k, v in kwargs.items() if v is not None})
+        return await self._request("discover/movie", params)
+
+    async def get_movie_list(self, category: str, page: int = 1) -> Dict[str, Any]:
+        """获取常规电影列表 (popular, top_rated 等)"""
+        return await self._request(f"movie/{category}", {"page": page, "language": "zh-CN"})
+
 
 tmdb_service = TMDBService()
