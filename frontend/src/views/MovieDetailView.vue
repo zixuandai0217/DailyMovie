@@ -56,11 +56,11 @@
 
             <div v-if="currentMovie.cast.length" class="section">
               <h3>主演</h3>
-              <p>{{ currentMovie.cast.join(', ') }}</p>
+              <p>{{ currentMovie.cast.join(", ") }}</p>
             </div>
 
             <div class="actions">
-              <el-button type="primary" size="large">
+              <el-button type="primary" size="large" @click="watchMovie">
                 <el-icon><VideoPlay /></el-icon>
                 立即观看
               </el-button>
@@ -81,54 +81,73 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { storeToRefs } from 'pinia'
-import { useMovieStore } from '@/stores/movie'
-import { ArrowLeft, Star, VideoPlay, Share, Loading } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
+import { computed, onMounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+import { useMovieStore } from "@/stores/movie";
+import {
+  ArrowLeft,
+  Star,
+  VideoPlay,
+  Share,
+  Loading,
+} from "@element-plus/icons-vue";
+import { ElMessage } from "element-plus";
 
-const route = useRoute()
-const router = useRouter()
-const store = useMovieStore()
+const route = useRoute();
+const router = useRouter();
+const store = useMovieStore();
 
-const { currentMovie, isLoading } = storeToRefs(store)
-const { fetchMovieDetail } = store
+const { currentMovie, isLoading } = storeToRefs(store);
+const { fetchMovieDetail } = store;
 
-const posterUrl = computed(() => store.posterUrl)
+const posterUrl = computed(() => store.posterUrl);
 
 const backdropStyle = computed(() => {
-  const url = store.backdropUrl
+  const url = store.backdropUrl;
   if (url) {
-    return { backgroundImage: `url(${url})` }
+    return { backgroundImage: `url(${url})` };
   }
-  return { backgroundColor: '#1a1a2e' }
-})
+  return { backgroundColor: "#1a1a2e" };
+});
 
 async function loadMovie() {
-  const movieId = Number(route.params.id)
+  const movieId = Number(route.params.id);
   if (movieId) {
-    await fetchMovieDetail(movieId)
+    await fetchMovieDetail(movieId);
+  }
+}
+
+function watchMovie() {
+  if (!currentMovie.value) return;
+
+  const movie = currentMovie.value;
+  // 如果有官方主页，优先跳转
+  if (movie.homepage) {
+    window.open(movie.homepage, "_blank");
+  } else {
+    // 否则跳转到 TMDB 页面
+    window.open(`https://www.themoviedb.org/movie/${movie.tmdb_id}`, "_blank");
   }
 }
 
 function shareMovie() {
-  const url = window.location.href
+  const url = window.location.href;
   if (navigator.share) {
     navigator.share({
-      title: currentMovie.value?.title || '',
-      text: currentMovie.value?.overview || '',
+      title: currentMovie.value?.title || "",
+      text: currentMovie.value?.overview || "",
       url: url,
-    })
+    });
   } else {
-    navigator.clipboard.writeText(url)
-    ElMessage.success('链接已复制到剪贴板')
+    navigator.clipboard.writeText(url);
+    ElMessage.success("链接已复制到剪贴板");
   }
 }
 
-onMounted(loadMovie)
+onMounted(loadMovie);
 
-watch(() => route.params.id, loadMovie)
+watch(() => route.params.id, loadMovie);
 </script>
 
 <style scoped lang="scss">
@@ -155,7 +174,11 @@ watch(() => route.params.id, loadMovie)
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.8) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
 }
 
 .back-btn {

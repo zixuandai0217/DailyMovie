@@ -79,6 +79,7 @@ class TMDBService:
             "original_title": data.get("original_title"),
             "overview": data.get("overview"),
             "overview_en": data_en.get("overview"),
+            "homepage": data.get("homepage"),
             "poster_path": data.get("poster_path"),
             "backdrop_path": data.get("backdrop_path"),
             "release_date": data.get("release_date"),

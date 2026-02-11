@@ -8,6 +8,7 @@ export interface Movie {
   original_title: string | null
   overview: string | null
   overview_en: string | null
+  homepage: string | null
   poster_path: string | null
   backdrop_path: string | null
   release_date: string | null

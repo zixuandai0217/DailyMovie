@@ -11,6 +11,7 @@ class MovieResponse(BaseModel):
     original_title: Optional[str] = None
     overview: Optional[str] = None
     overview_en: Optional[str] = None
+    homepage: Optional[str] = None
     poster_path: Optional[str] = None
     backdrop_path: Optional[str] = None
     release_date: Optional[str] = None
