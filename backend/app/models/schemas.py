@@ -7,8 +7,10 @@ class MovieResponse(BaseModel):
     id: int
     tmdb_id: int
     title: str
+    title_en: Optional[str] = None
     original_title: Optional[str] = None
     overview: Optional[str] = None
+    overview_en: Optional[str] = None
     poster_path: Optional[str] = None
     backdrop_path: Optional[str] = None
     release_date: Optional[str] = None

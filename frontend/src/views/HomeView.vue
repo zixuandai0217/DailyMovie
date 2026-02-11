@@ -13,6 +13,7 @@
       <!-- 电影信息 -->
       <div class="info-section">
         <h1 class="movie-title">{{ currentMovie.title }}</h1>
+        <h2 class="movie-title-en" v-if="currentMovie.title_en">{{ currentMovie.title_en }}</h2>
 
         <div class="movie-meta">
           <span v-if="currentMovie.release_date">{{ currentMovie.release_date.slice(0, 4) }}</span>
@@ -30,7 +31,8 @@
 
         <div class="overview-section">
           <h3>剧情简介</h3>
-          <p>{{ currentMovie.overview }}</p>
+          <p class="overview-zh">{{ currentMovie.overview }}</p>
+          <p class="overview-en" v-if="currentMovie.overview_en">{{ currentMovie.overview_en }}</p>
         </div>
 
         <div class="buttons">
@@ -147,10 +149,20 @@ onMounted(() => {
 }
 
 .movie-title {
+  font-family: 'Noto Sans SC', sans-serif;
   font-size: 42px;
   font-weight: bold;
-  margin: 0 0 20px 0;
+  margin: 0 0 10px 0;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.movie-title-en {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #e0e0e0;
+  margin: 0 0 25px 0;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
 .movie-meta {
@@ -203,6 +215,18 @@ onMounted(() => {
   font-size: 16px;
   line-height: 1.8;
   color: #ddd;
+}
+
+.overview-zh {
+  font-family: 'Noto Sans SC', sans-serif;
+  margin-bottom: 15px;
+}
+
+.overview-en {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  color: #bbb;
+  font-style: italic;
 }
 
 .buttons {

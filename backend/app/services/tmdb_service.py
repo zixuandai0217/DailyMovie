@@ -1,4 +1,5 @@
 import httpx
+import asyncio
 from typing import Optional, Dict, Any, List
 from app.config import get_settings
 
@@ -37,7 +38,7 @@ class TMDBService:
 
     async def get_random_movie(self) -> Optional[Dict[str, Any]]:
         """获取随机电影 - 从热门电影中随机选择"""
-        data = await self._request("movie/popular", {"page": 1})
+        data = await self._request("movie/popular", {"page": 1, "language": "zh-CN"})
         movies = data.get("results", [])
         if movies:
             import random
@@ -47,9 +48,16 @@ class TMDBService:
 
     async def get_movie_details(self, movie_id: int) -> Dict[str, Any]:
         """获取电影详情"""
-        data = await self._request(f"movie/{movie_id}", {
+        # 并行请求中文和英文数据
+        task_zh = self._request(f"movie/{movie_id}", {
+            "language": "zh-CN",
             "append_to_response": "credits"
         })
+        task_en = self._request(f"movie/{movie_id}", {
+            "language": "en-US"
+        })
+
+        data, data_en = await asyncio.gather(task_zh, task_en)
 
         # 提取导演
         director = None
@@ -67,8 +75,10 @@ class TMDBService:
         return {
             "tmdb_id": data["id"],
             "title": data["title"],
+            "title_en": data_en.get("title"),
             "original_title": data.get("original_title"),
             "overview": data.get("overview"),
+            "overview_en": data_en.get("overview"),
             "poster_path": data.get("poster_path"),
             "backdrop_path": data.get("backdrop_path"),
             "release_date": data.get("release_date"),
@@ -82,7 +92,7 @@ class TMDBService:
 
     async def search_movies(self, query: str, page: int = 1) -> Dict[str, Any]:
         """搜索电影"""
-        return await self._request("search/movie", {"query": query, "page": page})
+        return await self._request("search/movie", {"query": query, "page": page, "language": "zh-CN"})
 
 
 tmdb_service = TMDBService()
