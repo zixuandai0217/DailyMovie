@@ -2,6 +2,17 @@
 
 DailyMovie 是一个基于 FastAPI 和 Vue 3 的全栈电影推荐应用。它能为你随机推荐一部高质量电影，并展示详细信息，帮助你发现下一部想看的佳作。
 
+## ✨ 项目预览
+
+| 首页 (Home) | 热门电影 (Hot Movies) |
+| :---: | :---: |
+| ![Home](./docs/images/index.png) | ![Hot Movies](./docs/images/hotmovies.png) |
+
+| 电影详情 (Details) | AI 推荐 (AI Recommend) |
+| :---: | :---: |
+| ![Details](./docs/images/details.png) | ![AI Recommend](./docs/images/AIRecommend.png) |
+
+
 ## 🛠 技术栈
 
 ### Backend (后端)
