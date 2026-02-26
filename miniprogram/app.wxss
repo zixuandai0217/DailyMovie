@@ -1,0 +1,34 @@
+/**app.wxss**/
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Custom Navigation Bar */
+.custom-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: linear-gradient(135deg, #7c4dff 0%, #448aff 100%);
+  color: white;
+  box-shadow: 0 4rpx 12rpx rgba(124, 77, 255, 0.2);
+}
+
+.custom-nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34rpx;
+  font-weight: bold;
+  height: 44px; /* Standard nav bar height */
+  position: relative;
+}
+
+.custom-nav-title {
+  font-size: 36rpx;
+  letter-spacing: 1px;
+}

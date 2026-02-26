@@ -1,0 +1,45 @@
+.container {
+  padding: 20rpx;
+}
+.search-bar {
+  margin-bottom: 20rpx;
+}
+.search-input {
+  background: #f0f0f0;
+  padding: 16rpx 24rpx;
+  border-radius: 8rpx;
+}
+.movie-item {
+  display: flex;
+  margin-bottom: 20rpx;
+  background: #fff;
+  padding: 10rpx;
+  border-bottom: 1rpx solid #eee;
+}
+.poster-thumb {
+  width: 100rpx;
+  height: 150rpx;
+  margin-right: 20rpx;
+  background: #eee;
+  flex-shrink: 0;
+}
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  font-weight: bold;
+  font-size: 30rpx;
+  color: #333;
+}
+.year {
+  color: #888;
+  font-size: 24rpx;
+  margin-top: 10rpx;
+}
+.no-results {
+  text-align: center;
+  color: #999;
+  margin-top: 50rpx;
+}

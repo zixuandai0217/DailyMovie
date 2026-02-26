@@ -30,13 +30,21 @@ class AIService:
         
         Output valid JSON only. No markdown.
         Fields:
-        - genres: list of genre IDs (integers)
+        - query: string or null (if the user is searching for a specific movie title, actor, or franchise, e.g., "Avatar", "Tom Cruise")
+        - genres: list of genre IDs (integers) (use this if user describes a type of movie, e.g., "scary movies", "comedies")
         - year_start: int or null
         - year_end: int or null
         - sort_by: "popularity.desc", "vote_average.desc", "release_date.desc" (default: popularity.desc)
         
-        Example: "I want a sad romantic movie from the 90s"
-        Output: {{"genres": [10749, 18], "year_start": 1990, "year_end": 1999, "sort_by": "popularity.desc"}}
+        Priority:
+        - If the user provides a specific name (e.g., "Avatar"), put it in "query" and leave others null.
+        - If the user describes a category (e.g., "90s action movies"), use genres/years/sort_by and leave "query" null.
+        
+        Example 1: "I want a sad romantic movie from the 90s"
+        Output: {{"query": null, "genres": [10749, 18], "year_start": 1990, "year_end": 1999, "sort_by": "popularity.desc"}}
+        
+        Example 2: "Search for Avatar"
+        Output: {{"query": "Avatar", "genres": [], "year_start": null, "year_end": null, "sort_by": "popularity.desc"}}
         """
         
         messages = [
@@ -81,6 +89,16 @@ class AIService:
     async def recommend_movies(self, prompt: str) -> Dict[str, Any]:
         params = await self.get_search_params(prompt)
         
+        # Fallback: If AI failed to return structured data (e.g. API error), use prompt as search query
+        if not params:
+             print(f"AI failed to analyze prompt '{prompt}', falling back to direct search.")
+             return await tmdb_service.search_movies(prompt)
+
+        # Priority 1: Direct Search (if user provided a specific title/keyword)
+        if params.get("query"):
+            return await tmdb_service.search_movies(params["query"])
+        
+        # Priority 2: Discovery (Genre/Year based)
         # Construct TMDB query
         tmdb_params = {
             "page": 1,

@@ -1,0 +1,49 @@
+<view class="container {{movies.length > 0 ? 'chat-mode' : 'welcome-mode'}}" style="padding-top: {{totalNavHeight + 20}}px">
+  <!-- Custom Navigation Bar -->
+  <view class="custom-nav" style="height: {{totalNavHeight}}px;">
+    <view style="height: {{statusBarHeight}}px"></view>
+    <view class="custom-nav-content" style="height: {{navBarHeight}}px">
+      <text class="custom-nav-title">🤖 AI 推荐</text>
+    </view>
+  </view>
+
+  <!-- Welcome Content (Only visible when no results) -->
+  <view class="welcome-content" wx:if="{{movies.length === 0}}">
+    <image class="logo" src="/images/ai_active.png" mode="widthFix"></image>
+    <text class="greeting">DailyMovie AI</text>
+    <view class="sub-greeting-container">
+      <text class="sub-greeting">{{typedText}}</text>
+      <view class="cursor" wx:if="{{cursorVisible}}"></view>
+    </view>
+  </view>
+
+  <!-- Result List (Only visible when has results) -->
+  <scroll-view class="result-list" scroll-y wx:if="{{movies.length > 0}}">
+    <view class="movie-card" wx:for="{{movies}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
+      <image class="poster" src="{{imageBaseUrl + item.poster_path}}" mode="aspectFill"></image>
+      <view class="info">
+        <text class="title">{{item.title}}</text>
+        <text class="year">{{item.release_date}}</text>
+        <text class="overview">{{item.overview}}</text>
+      </view>
+    </view>
+    <view wx:if="{{loading}}" class="loading">思考中...</view>
+  </scroll-view>
+
+  <!-- Input Area (Position changes based on mode via CSS) -->
+  <view class="input-wrapper">
+    <view class="input-box">
+      <input class="prompt-input" placeholder="描述你想要的电影..." bindconfirm="onSend" confirm-type="send" value="{{inputValue}}" bindinput="onInput" />
+      <view class="send-btn-icon" bindtap="onSend">
+        <!-- Simple arrow icon using CSS or text -->
+        <text style="color: white; font-weight: bold;">↑</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Loading Overlay for initial search -->
+  <view wx:if="{{loading && movies.length === 0}}" class="loading-overlay">
+    <text>思考中...</text>
+  </view>
+
+</view>

@@ -6,7 +6,7 @@ from typing import Dict
 router = APIRouter(prefix="/ai", tags=["ai"])
 
 @router.post("/recommend", response_model=MovieListResponse)
-async def ai_recommend(body: Dict[str, str] = Body(..., example={"prompt": "I want a sci-fi movie"})):
+async def ai_recommend(body: Dict[str, str] = Body(..., examples=[{"prompt": "I want a sci-fi movie"}])):
     """AI 推荐电影"""
     user_prompt = body.get("prompt")
     if not user_prompt:

@@ -1,0 +1,67 @@
+<view class="container">
+  <!-- Background Layer -->
+  <view class="background-container">
+    <image wx:if="{{backdropUrl}}" class="background-image" src="{{backdropUrl}}" mode="aspectFill"></image>
+    <view class="background-overlay"></view>
+  </view>
+
+  <!-- Nav Extension Layer (Fills the gap) -->
+  <view class="nav-extension-fill"></view>
+
+  <!-- Custom Navigation Bar -->
+  <view class="custom-nav" style="height: {{totalNavHeight}}px;">
+    <view style="height: {{statusBarHeight}}px"></view>
+    <view class="custom-nav-content" style="height: {{navBarHeight}}px">
+      <text class="custom-nav-title">🎬 每日电影</text>
+    </view>
+  </view>
+
+  <!-- Content Wrapper -->
+  <view class="content-wrapper" style="padding-top: {{totalNavHeight}}px">
+    <!-- Loading State -->
+    <view class="loading-state" wx:if="{{loading}}">
+      <view class="loading-spinner"></view>
+      <text class="loading-text">加载中...</text>
+    </view>
+
+    <!-- Error State -->
+    <view class="error-state" wx:elif="{{error}}">
+      <text class="error-icon">😕</text>
+      <text class="error-text">{{error}}</text>
+      <button class="retry-btn" bindtap="refreshMovie">🎲 重试</button>
+    </view>
+
+    <!-- Movie Card -->
+    <view class="glass-card" wx:elif="{{movie}}">
+      <view class="poster-wrapper">
+        <image class="poster" src="{{imageBaseUrl + movie.poster_path}}" mode="aspectFill" binderror="handlePosterError"></image>
+      </view>
+
+      <view class="info">
+        <view class="header">
+          <text class="title">{{movie.title}}</text>
+          <text class="tagline" wx:if="{{movie.tagline}}">"{{movie.tagline}}"</text>
+        </view>
+
+        <view class="tags-row" wx:if="{{movie.genres && movie.genres.length > 0}}">
+          <text class="tag" wx:for="{{movie.genres}}" wx:key="*this">{{item}}</text>
+        </view>
+
+        <view class="meta-row">
+          <view class="rating-box">
+            <text class="rating-star">⭐</text>
+            <text class="rating-value">{{movie.vote_average}}</text>
+          </view>
+          <text class="meta-divider">·</text>
+          <text class="release-date">{{movie.release_date}}</text>
+        </view>
+
+        <text class="overview">{{movie.overview}}</text>
+
+        <button class="refresh-btn" bindtap="refreshMovie">
+          <text>🎲 换一换</text>
+        </button>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,75 @@
+<view class="container" style="padding-top: {{totalNavHeight + 20}}px">
+  <!-- Custom Navigation Bar -->
+  <view class="custom-nav" style="height: {{totalNavHeight}}px;">
+    <view style="height: {{statusBarHeight}}px"></view>
+    <view class="custom-nav-content" style="height: {{navBarHeight}}px">
+      <text class="custom-nav-title">👤 个人中心</text>
+    </view>
+  </view>
+
+  <!-- Header / Login -->
+  <view class="header">
+    <block wx:if="{{!user}}">
+      <view class="avatar-placeholder">
+        <text style="font-size: 60rpx; color: #ddd;">👤</text>
+      </view>
+      <button class="login-btn" bindtap="login">开启旅程</button>
+    </block>
+    <block wx:else>
+      <image class="avatar" src="{{user.avatar_url || '../../images/user.png'}}" mode="aspectFill"></image>
+      <text class="nickname">{{user.nickname || '影迷'}}</text>
+      <view class="page-title">我的电影基因</view>
+    </block>
+  </view>
+
+  <!-- Preferences Form -->
+  <view class="section" wx:if="{{user}}">
+    
+    <!-- Favorite Genres -->
+    <view class="section-title">喜欢的类型</view>
+    <checkbox-group bindchange="onGenreChange">
+      <label class="card-item" wx:for="{{genres}}" wx:key="id">
+        <view class="card-content">
+          <view class="card-icon">{{item.icon}}</view>
+          <view class="card-info">
+            <text class="card-name">{{item.name}}</text>
+            <text class="card-tag">类型</text>
+          </view>
+        </view>
+        <view class="checkbox-circle {{item.checked ? 'checked' : ''}}">
+          <text class="check-icon" wx:if="{{item.checked}}">✓</text>
+        </view>
+        <checkbox value="{{item.id}}" checked="{{item.checked}}"/>
+      </label>
+    </checkbox-group>
+
+    <!-- Preferred Eras -->
+    <view class="section-title">喜欢的年代</view>
+    <checkbox-group bindchange="onEraChange">
+      <label class="card-item" wx:for="{{eras}}" wx:key="value">
+        <view class="card-content">
+          <view class="card-icon" style="background: #e3f2fd; color: #2196f3;">{{item.icon}}</view>
+          <view class="card-info">
+            <text class="card-name">{{item.name}}</text>
+            <text class="card-tag" style="color: #2196f3; background: #e3f2fd;">年代</text>
+          </view>
+        </view>
+        <view class="checkbox-circle {{item.checked ? 'checked' : ''}}">
+          <text class="check-icon" wx:if="{{item.checked}}">✓</text>
+        </view>
+        <checkbox value="{{item.value}}" checked="{{item.checked}}"/>
+      </label>
+    </checkbox-group>
+
+    <!-- Keywords -->
+    <view class="section-title">特别关键词</view>
+    <view class="input-card" bindtap="focusInput">
+      <view class="input-icon">🏷️</view>
+      <input class="input" type="text" placeholder="例如：感人，反转，独立电影" placeholder-style="color:#ccc" model:value="{{keywords}}" focus="{{inputFocus}}" cursor-spacing="20"/>
+    </view>
+
+    <button class="save-btn" bindtap="savePreferences">保存我的电影基因</button>
+  </view>
+
+  <view class="logout" wx:if="{{user}}" bindtap="logout">退出登录</view>
+</view>

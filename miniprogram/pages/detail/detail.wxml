@@ -1,0 +1,16 @@
+<view class="container" wx:if="{{movie}}">
+  <image class="backdrop" src="{{imageBaseUrl + (movie.backdrop_path || movie.poster_path)}}" mode="widthFix"></image>
+  <view class="content">
+    <text class="title">{{movie.title}}</text>
+    <text class="tagline" wx:if="{{movie.tagline}}">{{movie.tagline}}</text>
+    <view class="meta">
+      <text class="date">{{movie.release_date}}</text>
+      <text class="rating">⭐ {{movie.vote_average}}</text>
+    </view>
+    <view class="section">
+      <text class="section-title">简介</text>
+      <text class="overview">{{movie.overview}}</text>
+    </view>
+  </view>
+</view>
+<view class="loading" wx:else>加载中...</view>

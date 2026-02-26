@@ -19,10 +19,17 @@ class Settings(BaseSettings):
     GLM_BASE_URL: str = "https://open.bigmodel.cn/api/anthropic"
 
     # 数据库配置
-    DATABASE_URL: str = "sqlite+aiosqlite:///./data/daily_movie.db"
+    # Use absolute path to ensure it works regardless of CWD
+    DATABASE_URL: str = f"sqlite+aiosqlite:///{Path(__file__).parent.parent.parent.joinpath('data', 'daily_movie.db').as_posix()}"
 
     # CORS 配置
-    CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://localhost:3000"]
+    # 小程序在开发环境下使用微信 IDE 调试，不需要配置 CORS
+    # 真机预览/上线需要配置为你的线上域名
+    CORS_ORIGINS: list[str] = [
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "http://192.168.3.245:5173",
+    ]
 
     class Config:
         # .env 文件在项目根目录
