@@ -1,18 +1,22 @@
 .container {
   padding: 30rpx;
-  background-color: #f0f2ff; /* Soft lavender/blue */
+  background-color: #f0f2ff;
   min-height: 100vh;
-  padding-bottom: 120rpx; /* Space for fixed button if needed */
+  padding-bottom: 120rpx;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
   background: transparent;
-  padding: 40rpx 0;
+  padding: 40rpx 0 60rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   border-bottom: none;
+  flex: 1;
 }
 
 .avatar-placeholder {
@@ -54,7 +58,7 @@
 }
 
 .login-btn {
-  margin-top: 40rpx;
+  margin-top: 80rpx;
   background: linear-gradient(135deg, #7c4dff 0%, #6200ea 100%) !important;
   color: #fff !important;
   border-radius: 50rpx;

@@ -5,9 +5,6 @@
     <view class="background-overlay"></view>
   </view>
 
-  <!-- Nav Extension Layer (Fills the gap) -->
-  <view class="nav-extension-fill"></view>
-
   <!-- Custom Navigation Bar -->
   <view class="custom-nav" style="height: {{totalNavHeight}}px;">
     <view style="height: {{statusBarHeight}}px"></view>
@@ -21,7 +18,7 @@
     <!-- Loading State -->
     <view class="loading-state" wx:if="{{loading}}">
       <view class="loading-spinner"></view>
-      <text class="loading-text">加载中...</text>
+      <text class="loading-text">正在加载精彩电影...</text>
     </view>
 
     <!-- Error State -->
@@ -38,28 +35,30 @@
       </view>
 
       <view class="info">
-        <view class="header">
+        <view class="content-header">
           <text class="title">{{movie.title}}</text>
           <text class="tagline" wx:if="{{movie.tagline}}">"{{movie.tagline}}"</text>
         </view>
 
         <view class="tags-row" wx:if="{{movie.genres && movie.genres.length > 0}}">
-          <text class="tag" wx:for="{{movie.genres}}" wx:key="*this">{{item}}</text>
+          <text class="tag" wx:for="{{movie.genres}}" wx:key="*this" wx:for-index="idx">{{item}}</text>
         </view>
 
         <view class="meta-row">
           <view class="rating-box">
             <text class="rating-star">⭐</text>
             <text class="rating-value">{{movie.vote_average}}</text>
+            <text class="rating-max">/10</text>
           </view>
-          <text class="meta-divider">·</text>
+          <text class="meta-divider">|</text>
           <text class="release-date">{{movie.release_date}}</text>
         </view>
 
-        <text class="overview">{{movie.overview}}</text>
+        <text class="overview" wx:if="{{movie.overview}}">{{movie.overview}}</text>
 
         <button class="refresh-btn" bindtap="refreshMovie">
-          <text>🎲 换一换</text>
+          <text class="btn-icon">🎲</text>
+          <text>换一换</text>
         </button>
       </view>
     </view>
