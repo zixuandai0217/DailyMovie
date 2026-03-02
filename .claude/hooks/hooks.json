@@ -1,0 +1,63 @@
+{
+  "description": "Audio playback for hooks events",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /Users/zixuandai/code/claude/slow.mp3"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /Users/zixuandai/code/claude/aot.mp3"
+          }
+        ]
+      },
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /Users/zixuandai/code/claude/aot.mp3"
+          }
+        ]
+      },
+      {
+        "matcher": "auth_success",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /Users/zixuandai/code/claude/aot.mp3"
+          }
+        ]
+      },
+      {
+        "matcher": "elicitation_dialog",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /Users/zixuandai/code/claude/aot.mp3"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /Users/zixuandai/code/claude/nice.mp3"
+          }
+        ]
+      }
+    ]
+  }
+}
