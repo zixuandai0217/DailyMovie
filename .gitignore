@@ -15,3 +15,4 @@ wheels/
 # Node_modules
 frontend/node_modules/
 
+.agent
